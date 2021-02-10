@@ -7,6 +7,7 @@ var xform = svg.createSVGMatrix();
 var strokeColor = "#ffffff";
 var cls;
 var startSide;
+var tri;
 var startX;
 var startY;
 var maxSplit = 8;
@@ -19,7 +20,7 @@ function sleep(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));  
 }
 function clearCtx() {
-    ctx.clearRect(0, 0, canvas.width+100, canvas.height+100);
+	ctx.clearRect(0, 0, window.innerWidth*2, window.innerHeight*2);
 }
 class triangle{
     constructor(side, x, y) {
@@ -39,7 +40,7 @@ class triangle{
         ctx.closePath();
     }
 }
-class tri{
+class tris{
     constructor(side, x, y) {
         this.arr = [new triangle(side, x, y)];
         this.canvas = document.getElementById('triangles');
@@ -62,7 +63,8 @@ class tri{
             else{
                 zooming = true;
                 await this.zoom();
-                zooming = false;
+
+		zooming = false;
             }
         }
         else {
@@ -196,7 +198,11 @@ function load() {
     ctx = canvas.getContext('2d');
     
     ctx.strokeStyle = "#ffffff";
-    startSide = canvas.height * (Math.sqrt(3)/2) * 1.25;
+    if (canvas.width > canvas.height) {
+    	startSide = canvas.height * (Math.sqrt(3)/2) * 1.25;
+    } else {
+	startSide = canvas.width;
+    }
     startX = canvas.width/2;
     startY = canvas.height/2;
     var pt  = svg.createSVGPoint();
@@ -207,9 +213,9 @@ function load() {
 
 }
     function start() {
-        if (window.tri === undefined) {
-        window.tri = new tri(startSide, startX, startY);
-        window.tri.draw();
+        if (tri === undefined) {
+        tri = new tris(startSide, startX, startY);
+        tri.draw();
         if (lightMode)
         cls = "btn btn-outline-dark align-middle";
         else 
@@ -218,13 +224,16 @@ function load() {
         createBtn(cls, "Zoom", "window.tri.zoom()", document.getElementById("btn-center"), "zoom");
         document.querySelector('#Start').setAttribute("value", "Reset");
         document.querySelector('#Start').setAttribute("onclick", "reset()");
+	if (autoSplit) {
+	    tri.Split();	
+	}
         }
     }
     function reset() {
-        if (window.tri != undefined) {
-            window.tri = new tri(canvas.width/2, canvas.width/2, canvas.height/2);
+        if (tri != undefined) {
+            tri = new tris(startSide, canvas.width/2, canvas.height/2);
             clearCtx();
-            window.tri.draw();
+            tri.draw();
         } 
     }
     function createBtn(cls, text, click, div, id) {
@@ -259,14 +268,18 @@ function load() {
             document.querySelector('#auto').classList = cls;
             document.querySelector("#advance").classList = cls;
             document.querySelector("#zoom").classList = cls;
-            window.tri.draw();
+            tri.draw();
     }
     function toggleAuto() {
         autoSplit = !autoSplit;
         var onoff;
         if (autoSplit) {
             onoff = "On";
-            window.tri.split();
+            try {
+		tri.Split();
+	    }
+	    catch {
+	    }
         } else 
             onoff = "Off";
         
