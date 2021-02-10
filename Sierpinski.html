@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-<html>
-<title>Sierpiński's triangle</title>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>Sierpiński's triangle</title>
 
-<script src=sierpinskiTriangle.js>
+<script src="Sierpinski_files/sierpinskiTriangle.js">
 </script>
-<head>
-<link href="bootstrap.min.css" rel="stylesheet" type="text/css">
-</head>
-<meta charset="UTF-8"/>
 
-
-<style> 
+<link href="Sierpinski_files/bootstrap.css" rel="stylesheet" type="text/css">
+<meta charset="UTF-8"><style> 
     /*
     #btn-left{
         position: absolute;
@@ -37,18 +33,22 @@
         margin: 3px;
         left: 50%;
     }
-</style>
-
-<script>
-    function onlo() {
-        alert("Loading Stuffs");
-        load();
+    #back-div {
+    	position: absolute;
+	left: 0%;
     }
-</script>
+</style></head>
 
-<body style="background-color: gray;"  onload="load()">
+
+
+
+
+<body style="background-color: gray;" onload="load()">
+	<div id="back-div">
+	<input id="Back" type="button" onclick="window.location.href='recursion';" class="btn btn-outlin-dark align-middle" value="&lt;- Back"> 
+	</div>
     <span style="display: flex; justify-content: space-around">
-    <div id = "btn-left">
+    <div id="btn-left">
         <input id="light" type="button" onclick="toggleLight()" class="btn btn-outline-light align-middle" value="Light Mode">
     </div>
     <div id="btn-center">
@@ -58,10 +58,11 @@
         <input id="auto" type="button" onclick="toggleAuto()" class="btn btn-outline-light align-middle" value="Auto Split Off">
     </div>
     </span>
-</br>
-    <canvas id="triangles" width="1" height="1">
+<br>
+    <canvas id="triangles" width="1920" height="806">
     </canvas>    
-<br></br>
-</body>
 
-</html>
+
+
+
+</body></html>
